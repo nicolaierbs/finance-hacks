@@ -7,14 +7,18 @@ import javax.mail.MessagingException;
 
 import org.junit.Test;
 
-public class GiroOptimizerTest {
+import me.figo.FigoException;
 
+public class GiroOptimizerTest {
+	
 	@Test
-	public void testSendNotification() throws MessagingException, IOException {
+	public void testSendNotification() throws MessagingException, IOException, FigoException {
 		
-		GiroOptimizer.sendNotification(new BigDecimal(2343245.45), true, new BigDecimal(100), "finance@erbs.eu");
-		GiroOptimizer.sendNotification(new BigDecimal(234.56),  false, new BigDecimal(100), "finance@erbs.eu");
-		GiroOptimizer.sendNotification(new BigDecimal(-45.56),  false, new BigDecimal(100),  "finance@erbs.eu");
+		GiroOptimizer optimizer = new GiroOptimizer();
+		
+		optimizer.sendNotification(new BigDecimal(2343245.45), true, new BigDecimal(100), "finance@erbs.eu");
+		optimizer.sendNotification(new BigDecimal(234.56),  false, new BigDecimal(100), "finance@erbs.eu");
+		optimizer.sendNotification(new BigDecimal(-45.56),  false, new BigDecimal(100),  "finance@erbs.eu");
 	}
 
 }
