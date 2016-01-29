@@ -8,12 +8,14 @@ import java.math.BigDecimal;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import javax.mail.MessagingException;
+
 import me.figo.FigoConnection;
 import me.figo.FigoException;
 import me.figo.FigoSession;
 import me.figo.internal.TokenResponse;
 
-public class OptimizeAccount{
+public class GiroOptimizer{
 
 	final static String USER_PROPERTIES_PATH = "src/main/resources/user.properties";
 	final static String CONFIG_PROPERTIES_PATH = "src/main/resources/config.properties";
@@ -23,10 +25,14 @@ public class OptimizeAccount{
 	final static String CHECK_FREQUENCY_DAYS = "CHECK_FREQUENCY_DAYS";
 	final static String GIRO_DYNAMIC_MIN = "GIRO_DYNAMIC_MIN";
 	final static String GIRO_MIN = "GIRO_MIN";
+	final static String MAIL_RECIPIENT = "MAIL_RECIPIENT";
 	
-	private static final Logger log = Logger.getLogger(OptimizeAccount.class.getName());	
+	private static EmailNotifier notifier;
+	
+	
+	private static final Logger log = Logger.getLogger(GiroOptimizer.class.getName());	
 
-	public static void main(String[] args) throws FigoException, IOException {
+	public static void main(String[] args) throws FigoException, IOException, MessagingException {
 		FigoSession session;
 
 		Properties properties = new Properties();
@@ -62,13 +68,28 @@ public class OptimizeAccount{
 		boolean transferred = transferMoney(session, properties.getProperty(ACCOUNT_GIRO), properties.getProperty(ACCOUNT_SAVINGS), transferAmount);
 
 		//Send notification
-		sendNotification(transferAmount, transferred);
+		sendNotification(transferAmount, transferred, balance, properties.getProperty(MAIL_RECIPIENT));
 
 	}
 
-	private static void sendNotification(BigDecimal transferAmount, boolean transferred) {
+	protected static void sendNotification(BigDecimal transferAmount, boolean transferred, BigDecimal balance, String recipient) throws MessagingException, IOException {
 		log.info("Sending notifications");
-		// TODO Auto-generated method stub		
+		if(notifier == null){
+			notifier = new EmailNotifier();
+		}
+		String balanceInformation = "</br>Your current balance is " + balance.longValue() + " euro.";
+		if(transferred){
+			notifier.sendEmail(recipient, transferAmount.longValue() + " euro from giro account transferred",
+					"I transferred " + transferAmount.longValue() + " euro from your giro account to your savings account." + balanceInformation);
+		}
+		else if(transferAmount.longValue() < 0){
+			notifier.sendEmail(recipient, "[WARNING] Balance of your giro account is low",
+					"this is a quick warning that your balance of your giro account is low. I recommend you to transfer " + transferAmount.negate().longValue() + " euro to your giro account." + balanceInformation);
+		}
+		else{
+			notifier.sendEmail(recipient, "No money from giro account transferred",
+					"I did not transfer any money from your giro to your savings account. Everything's fine :-)" + balanceInformation);
+		}
 	}
 
 	private static boolean transferMoney(FigoSession session, String giroAccount, String savingsAccount, BigDecimal amount) {
