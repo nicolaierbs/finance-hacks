@@ -23,7 +23,14 @@ public abstract class AccountRobot {
 	private static final Logger log = Logger.getLogger(AccountRobot.class.getName());
 
 	public static void loadProperties(String file, Properties properties) throws IOException {
-		final InputStream input = AccountRobot.class.getClassLoader().getResourceAsStream("resources/"+file);
+		
+		final InputStream input;
+		if(AccountRobot.class.getClassLoader().getResource("resources/"+file) != null){
+			input = AccountRobot.class.getClassLoader().getResourceAsStream("resources/"+file);
+		}
+		else{
+			input = AccountRobot.class.getClassLoader().getResourceAsStream(file);
+		}
 		properties.load(input);
 		input.close();
 	}
