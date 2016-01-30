@@ -1,6 +1,5 @@
 package eu.erbs.financehacks;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -12,7 +11,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import static eu.erbs.financehacks.GiroOptimizer.loadProperties;
+import static eu.erbs.financehacks.AccountRobot.loadProperties;
 
 public class EmailNotifier {
 	
@@ -20,7 +19,7 @@ public class EmailNotifier {
 	static Session getMailSession;
 	static MimeMessage generateMailMessage;
 	
-	final static String MAIL_PROPERTIES_PATH = "src/main/resources/mail.properties";
+	final static String MAIL_PROPERTIES_PATH = "mail.properties";
 	final static String MAIL_HOST = "MAIL_HOST";
 	final static String MAIL_USER = "MAIL_USER";
 	final static String MAIL_PASSWORD = "MAIL_PASSWORD";
@@ -36,7 +35,7 @@ public class EmailNotifier {
 		mailServerProperties.put("mail.smtp.auth", "true");
 		mailServerProperties.put("mail.smtp.starttls.enable", "true");
 		
-		loadProperties(new File(MAIL_PROPERTIES_PATH), mailServerProperties);
+		loadProperties(MAIL_PROPERTIES_PATH, mailServerProperties);
 
 		log.fine("Mail Server Properties have been setup successfully..");
 	}

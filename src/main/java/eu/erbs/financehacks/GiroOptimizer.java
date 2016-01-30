@@ -16,7 +16,7 @@ public class GiroOptimizer extends AccountRobot {
 	final static String GIRO_DYNAMIC_MIN = "GIRO_DYNAMIC_MIN";
 	final static String GIRO_MIN = "GIRO_MIN";
 	
-	protected static final String USER_PROPERTIES_PATH = "src/main/resources/user.properties";
+	protected static final String USER_PROPERTIES_PATH = "user.properties";
 
 	private static final Logger log = Logger.getLogger(GiroOptimizer.class.getName());	
 
@@ -84,12 +84,6 @@ public class GiroOptimizer extends AccountRobot {
 		// TODO Add payment and find a way to enable TAN verification	
 		log.info("Checking maximum transaction volume over " +  daysIntervall + " for " + accountId);
 		return new BigDecimal(0);
-	}
-
-	private BigDecimal checkBalance(String accountId) throws FigoException, IOException {
-		BigDecimal amount = session.getAccount(accountId).getBalance().getBalance();
-		log.info("Balance of " + accountId + ": " + amount);
-		return amount;
 	}
 
 }
