@@ -1,4 +1,4 @@
-package eu.erbs.financehacks;
+package eu.erbs.financehacks.notifier;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -13,7 +13,7 @@ import javax.mail.internet.MimeMessage;
 
 import static eu.erbs.financehacks.AccountRobot.loadProperties;
 
-public class EmailNotifier {
+public class EmailNotifier implements Notifier {
 	
 	static Properties mailServerProperties;
 	static Session getMailSession;
@@ -40,7 +40,10 @@ public class EmailNotifier {
 		log.fine("Mail Server Properties have been setup successfully..");
 	}
 
-	public void sendEmail(String recipient, String subject, String emailBody) throws MessagingException{
+	/* (non-Javadoc)
+	 * @see eu.erbs.financehacks.notification.Notifier#sendNotification(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	public void sendNotification(String recipient, String subject, String emailBody) throws MessagingException{
 
 
 		log.fine("Get Mail Session..");

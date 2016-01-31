@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
 
+import eu.erbs.financehacks.notifier.EmailNotifier;
 import me.figo.FigoException;
 
 public class GiroOptimizer extends AccountRobot {
@@ -59,15 +60,15 @@ public class GiroOptimizer extends AccountRobot {
 		}
 		String balanceInformation = "</br>Your current balance is " + balance.longValue() + " euro.";
 		if(transferred){
-			notifier.sendEmail(recipient, transferAmount.longValue() + " euro from giro account transferred",
+			notifier.sendNotification(recipient, transferAmount.longValue() + " euro from giro account transferred",
 					"I transferred " + transferAmount.longValue() + " euro from your giro account to your savings account." + balanceInformation);
 		}
 		else if(transferAmount.longValue() < 0){
-			notifier.sendEmail(recipient, "[WARNING] Balance of your giro account is low",
+			notifier.sendNotification(recipient, "[WARNING] Balance of your giro account is low",
 					"this is a quick warning that your balance of your giro account is low. I recommend you to transfer " + transferAmount.negate().longValue() + " euro to your giro account." + balanceInformation);
 		}
 		else{
-			notifier.sendEmail(recipient, "No money from giro account transferred",
+			notifier.sendNotification(recipient, "No money from giro account transferred",
 					"I did not transfer any money from your giro to your savings account. Everything's fine :-)" + balanceInformation);
 		}
 	}

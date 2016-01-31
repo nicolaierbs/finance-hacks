@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+import eu.erbs.financehacks.notifier.Notifier;
 import me.figo.FigoConnection;
 import me.figo.FigoException;
 import me.figo.FigoSession;
@@ -19,7 +20,7 @@ public abstract class AccountRobot {
 
 	protected static final String CONFIG_PROPERTIES_PATH = "config.properties";
 	protected static final String MAIL_RECIPIENT = "MAIL_RECIPIENT";
-	protected static EmailNotifier notifier;
+	protected static Notifier notifier;
 
 	protected FigoSession session;
 	protected Properties properties;	

@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
 
+import eu.erbs.financehacks.notifier.EmailNotifier;
 import me.figo.FigoException;
 import me.figo.models.Transaction;
 
@@ -66,7 +67,7 @@ public class BalanceInformationRobot extends AccountRobot {
 		transactionInformation.append("<br/>");
 		transactionInformation.append("The total expense in this week were " + Math.round(-sum) + " euro.");
 
-		notifier.sendEmail(
+		notifier.sendNotification(
 				properties.getProperty(MAIL_RECIPIENT),
 				"Your balance is " + balance.longValue() + " euro",
 				balanceInformation + transactionInformation.toString());
