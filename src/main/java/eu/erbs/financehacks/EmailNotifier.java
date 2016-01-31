@@ -49,7 +49,7 @@ public class EmailNotifier {
 		generateMailMessage.setFrom(new InternetAddress(mailServerProperties.getProperty(MAIL_USER)));
 		if(recipient.contains(",")){
 			for(String to : recipient.split(",")){
-				generateMailMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));			
+				generateMailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));			
 			}
 		}
 		else{
