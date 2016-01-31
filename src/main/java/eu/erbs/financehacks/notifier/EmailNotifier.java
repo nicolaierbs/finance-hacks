@@ -19,7 +19,7 @@ public class EmailNotifier implements Notifier {
 	static Session getMailSession;
 	static MimeMessage generateMailMessage;
 	
-	final static String MAIL_PROPERTIES_PATH = "mail.properties";
+	final static String MAIL_PROPERTIES_PATH = "mailserver.properties";
 	final static String MAIL_HOST = "MAIL_HOST";
 	final static String MAIL_USER = "MAIL_USER";
 	final static String MAIL_PASSWORD = "MAIL_PASSWORD";
