@@ -47,7 +47,14 @@ public class EmailNotifier {
 		getMailSession = Session.getDefaultInstance(mailServerProperties, null);
 		generateMailMessage = new MimeMessage(getMailSession);
 		generateMailMessage.setFrom(new InternetAddress(mailServerProperties.getProperty(MAIL_USER)));
-		generateMailMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+		if(recipient.contains(",")){
+			for(String to : recipient.split(",")){
+				generateMailMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(to));			
+			}
+		}
+		else{
+			generateMailMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
+		}
 		generateMailMessage.setSubject(SUBJECT_TAG + " " + subject);
 		generateMailMessage.setContent(getPoliteMail(emailBody), "text/html");
 		log.info("Mail Session has been created successfully..");
