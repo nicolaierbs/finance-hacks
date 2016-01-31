@@ -27,7 +27,7 @@ public abstract class AccountRobot {
 	private static final Logger log = Logger.getLogger(AccountRobot.class.getName());
 
 	public static void loadProperties(String file, Properties properties) throws IOException {
-		
+
 		final InputStream input;
 		if(AccountRobot.class.getClassLoader().getResource("resources/"+file) != null){
 			input = AccountRobot.class.getClassLoader().getResourceAsStream("resources/"+file);
@@ -75,6 +75,14 @@ public abstract class AccountRobot {
 			}
 		}
 		return transactions;
+	}
+
+	protected static String filterBookingText(String bookingText) {
+		bookingText = bookingText
+				.replaceAll("Svwz\\+"," ")
+				.replaceAll("Eref\\+"," ")
+				.replaceAll("Mref\\+"," ");
+		return bookingText;
 	}
 
 

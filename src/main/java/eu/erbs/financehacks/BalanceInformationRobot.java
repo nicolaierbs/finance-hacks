@@ -17,7 +17,7 @@ public class BalanceInformationRobot extends AccountRobot {
 	final static String ACCOUNT_GIRO = "ACCOUNT_GIRO";
 	final static String MAIL_RECIPIENT = "MAIL_RECIPIENT";
 
-	private final static String TRANSACTIONS_TABLE_FORMAT = "%8.2f %15s %23s %10tB %2te, %tY %80s %n";
+	private final static String TRANSACTIONS_TABLE_FORMAT = "<tr><td>%8.2f</td> <td>%23s</td> <td>%10tB %2te, %tY</td> <td>%80s</td></td></tr><br/>";
 
 	protected static final String USER_PROPERTIES_PATH = "schokokonto.properties";
 
@@ -48,17 +48,19 @@ public class BalanceInformationRobot extends AccountRobot {
 		String balanceInformation = "</br>your current balance is " + balance.longValue() + " euro.";
 		StringBuffer transactionInformation = new StringBuffer();
 		Formatter formatter = new Formatter(transactionInformation);
-		transactionInformation.append("<br/>");
+		transactionInformation.append("<table><br/>");
 		Calendar c = Calendar.getInstance();
 
 		float sum = 0;
 		for(Transaction transaction : transactions){
 			transactionInformation.append("<br/>");
 			c.setTime(transaction.getBookingDate());
-			formatter.format(TRANSACTIONS_TABLE_FORMAT, transaction.getAmount(), transaction.getType(), transaction.getBookingText(), c, c, c, transaction.getPurposeText());
+			formatter.format(TRANSACTIONS_TABLE_FORMAT, transaction.getAmount(), filterBookingText(transaction.getBookingText()), c, c, c, transaction.getPurposeText());
 			sum += transaction.getAmount().floatValue();
 		}
 		formatter.close();
+		transactionInformation.append("</table>");
+		
 		transactionInformation.append("<br/>");
 		transactionInformation.append("<br/>");
 		transactionInformation.append("The total expense in this week were " + Math.round(-sum) + " euro.");
