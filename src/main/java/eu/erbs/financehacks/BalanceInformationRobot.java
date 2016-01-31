@@ -16,10 +16,11 @@ public class BalanceInformationRobot extends AccountRobot {
 
 	final static String ACCOUNT_GIRO = "ACCOUNT_GIRO";
 	final static String MAIL_RECIPIENT = "MAIL_RECIPIENT";
-
+	final static String NOTIFICATION_FREQUENCY_DAYS = "NOTIFICATION_FREQUENCY_DAYS";
+	
 	private final static String TRANSACTIONS_TABLE_FORMAT = "<tr><td>%8.2f</td> <td>%23s</td> <td>%10tB %2te, %tY</td> <td>%80s</td></td></tr><br/>";
 
-	protected static final String USER_PROPERTIES_PATH = "schokokonto.properties";
+	protected static final String USER_PROPERTIES_PATH = "accountnotification.properties";
 
 	private static final Logger log = Logger.getLogger(BalanceInformationRobot.class.getName());	
 
@@ -36,7 +37,7 @@ public class BalanceInformationRobot extends AccountRobot {
 	private void start() throws FigoException, IOException, MessagingException {
 		String accountId = properties.getProperty(ACCOUNT_GIRO);
 		BigDecimal balance = checkBalance(accountId);
-		List<Transaction> transactions = getTransactions(accountId, 7);
+		List<Transaction> transactions = getTransactions(accountId, Integer.valueOf(properties.getProperty(NOTIFICATION_FREQUENCY_DAYS)));
 		log.info("Sending notifications");
 		notify(balance, transactions);
 	}
