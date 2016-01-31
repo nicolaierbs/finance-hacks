@@ -71,13 +71,13 @@ public class EmailNotifier {
 	private String getPoliteMail(String emailBody) {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("Hi,");
-		buffer.append("</br>");
-		buffer.append("</br>");
+		buffer.append("<br/>");
+		buffer.append("<br/>");
 		buffer.append(emailBody);
-		buffer.append("</br>");
-		buffer.append("</br>");
+		buffer.append("<br/>");
+		buffer.append("<br/>");
 		buffer.append("Best wishes,");
-		buffer.append("</br>");
+		buffer.append("<br/>");
 		buffer.append("your stupid finance advisor");
 		
 		return buffer.toString();

@@ -3,6 +3,9 @@ package eu.erbs.financehacks;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -10,6 +13,7 @@ import me.figo.FigoConnection;
 import me.figo.FigoException;
 import me.figo.FigoSession;
 import me.figo.internal.TokenResponse;
+import me.figo.models.Transaction;
 
 public abstract class AccountRobot {
 
@@ -59,6 +63,18 @@ public abstract class AccountRobot {
 		BigDecimal amount = session.getAccount(accountId).getBalance().getBalance();
 		log.info("Balance of " + accountId + ": " + amount);
 		return amount;
+	}
+
+	protected List<Transaction> getTransactions(String accountId, int days) throws FigoException, IOException {
+		Date date = new Date();
+		date.setTime(date.getTime() - days * 1000 * 60 * 60 * 24);
+		List<Transaction> transactions = new ArrayList<Transaction>();
+		for (Transaction transaction : session.getTransactions(session.getAccount(accountId))) {
+			if(transaction.getBookingDate().after(date)){
+				transactions.add(transaction);
+			}
+		}
+		return transactions;
 	}
 
 
