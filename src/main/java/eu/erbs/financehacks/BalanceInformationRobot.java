@@ -50,7 +50,7 @@ public class BalanceInformationRobot extends AccountRobot {
 		String balanceInformation = "</br>your current balance is " + balance.longValue() + " euro.";
 		StringBuffer transactionInformation = new StringBuffer();
 		Formatter formatter = new Formatter(transactionInformation);
-		transactionInformation.append("<table><br/>");
+		transactionInformation.append("<table cellspacing='10'><br/>");
 		Calendar c = Calendar.getInstance();
 
 		float sum = 0;
