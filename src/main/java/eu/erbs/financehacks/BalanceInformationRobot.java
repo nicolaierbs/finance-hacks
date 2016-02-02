@@ -65,11 +65,11 @@ public class BalanceInformationRobot extends AccountRobot {
 		
 		transactionInformation.append("<br/>");
 		transactionInformation.append("<br/>");
-		transactionInformation.append("The total expense in this week were " + Math.round(-sum) + " euro.");
+		transactionInformation.append("The total expense in this week were " + Math.round(sum*(-100)/100) + " euro.");
 
 		notifier.sendNotification(
 				properties.getProperty(MAIL_RECIPIENT),
-				"Your balance is " + balance.longValue() + " euro",
+				"Your balance is " + Math.round(balance.floatValue()*(-100)/100) + " euro",
 				balanceInformation + transactionInformation.toString());
 	}
 }
